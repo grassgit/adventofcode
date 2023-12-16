@@ -28,7 +28,7 @@ void Main()
 	//45817930018 > low  -1 when False
 	//45817930035 > low int overflow!! results in 0
 	// correct: 37366887898686
-	_cacheHit.Values.Sum().Dump();
+	$"Cache got hit {_cacheHit.Values.Where(x => x != 0).Count()}. Preventing {_cacheHit.Values.Sum()} tail permutations from being evaluated. Only {data - _cacheHit.Values.Sum()} permutations were actually calculated".Dump();
 }
 
 long Process(string tail, int[] numbers)
@@ -59,7 +59,7 @@ bool Advance(string tail, int[] numbers, out long count)
 	if (_cache.TryGetValue(key, out var k))
 	{
 		if (log) $"{prefix} * c ({tail}) {k}".Dump();
-		_cacheHit[key] += 1;
+		_cacheHit[key] += k;
 		count = k;
 		//index[(numbers.Length - 1, tail.Length - 1, 0)] += k;
 		return count > 0;
